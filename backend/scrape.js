@@ -1,26 +1,27 @@
-const axios = require('axios'); //import Axios
-const cheerio = require('cheerio');//import Cheerio
+const axios = require('axios'); // Import Axios
+const cheerio = require('cheerio'); // Import Cheerio
 
-async function scrapeAmazon(keyword) {
+async function scrapeAmazon(keyword) { // Creates the scraping function
   try {
     const response = await axios.get(`https://www.amazon.com.br/s?k=${encodeURIComponent(keyword)}`, {
       headers: {
-        'User-Agent': 'Mozilla/5.0' // Define a valid user-agent (Fix 503 error)
-      }
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+      } // Define a valid user-agent (Fix 503 error)
     });
 
-    const $ = cheerio.load(response.data);
+    const $ = cheerio.load(response.data); // Use Cheerio to load the HTML content
 
-    const products = [];
+    const products = []; // Creates an empty list that will be used to store the obtained products
 
-    $('.s-result-item').each((index, element) => {
-      const title = $(element).find('.a-size-base-plus.a-color-base.a-text-normal').text().trim(); //Find the product title
+    $('.s-result-item[data-asin]').each((index, element) => {
+      const title = $(element).find('.a-size-base-plus.a-color-base.a-text-normal').text().trim(); // Find the product title
       if (title !== '') { // Check that the title is not empty
-        const ratingElement = $(element).find('.a-icon-star-small'); //Find the product rating element by the classname
-        const rating = ratingElement.length > 0 ? ratingElement.text() : 'N/A'; //Check if have any avaliation
-        const numReviewsElement = $(element).find('.a-size-base.s-underline-text'); //Find the product number of reviews element by the classname
-        const numReviews = numReviewsElement.length > 0 ? numReviewsElement.text() : 'N/A'; //Check if have any review
-        const imageUrl = $(element).find('.s-image').attr('src'); //Find the product image url
+        const ratingElement = $(element).find('.a-icon-star-small .a-icon-alt'); // Find the product rating eleement by the classname
+        const rating = ratingElement.length > 0 ? ratingElement.text() : 'N/A';
+        const numReviewsElement = $(element).find('.a-size-base.s-underline-text');
+        let numReviews = numReviewsElement.length > 0 ? numReviewsElement.text() : 'N/A';
+        numReviews = numReviews.split('').filter(char => !isNaN(parseInt(char))).join(''); // Remove all non-numeric characters
+        const imageUrl = $(element).find('.s-image').attr('src');
 
         products.push({
           title,
@@ -33,14 +34,7 @@ async function scrapeAmazon(keyword) {
 
     return products;
   } catch (error) {
-    if (error.response && error.response.status === 503) {
-      console.log('Service temporarily unavailable. Trying again in 5 seconds...');
-      await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds (Fix 503 error)
-      return scrapeAmazon(keyword); // Try scraping again
-    } else {
-      throw new Error(`Failed to scrape Amazon: ${error.message}`);
-      
-    }
+    throw new Error(`Failed to scrape Amazon: ${error.message}`);
   }
 }
 

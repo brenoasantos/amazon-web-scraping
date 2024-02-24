@@ -5,23 +5,23 @@ const scrapeAmazon = require('./scrape'); // Importe a função scrapeAmazon
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Use o middleware de configuração do CORS
+// Use CORS configuration middleware
 app.use(configureCors());
 
-// Defina uma rota que será acessada pelo frontend
+// Define the route that will be accessed by the frontend
 app.get('/api/scrape', async (req, res) => {
-  const keyword = req.query.keyword; // Obtenha a palavra-chave de pesquisa do parâmetro de consulta
+  const keyword = req.query.keyword; // Get the search keyword from the query parameter
   try {
-    // Chame a função scrapeAmazon com a palavra-chave e aguarde os resultados
+    // Call the scrapeAmazon function with the keyword and wait for the results
     const products = await scrapeAmazon(keyword);
-    // Envie os resultados de volta para o frontend como resposta JSON
+    // Send results back to the frontend as JSON response
     res.json(products);
   } catch (error) {
-    // Se ocorrer um erro, envie uma resposta de erro com o status 500
+    // If an error occurs, send an error response with status 500
     res.status(500).json({ error: error.message });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => { // Starts the server on the defined port (3000)
+  console.log(`Server is running on port ${PORT}`); // Notifies in the console that the server has been started
+}); 

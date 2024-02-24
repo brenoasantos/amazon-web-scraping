@@ -1,6 +1,6 @@
 const cors = require('cors');
 
-// Middleware para configurar o CORS
+// Middleware to configure CORS
 const configureCors = () => {
   return cors();
 };
