@@ -1,7 +1,7 @@
-const express = require('express'); // Import the Express module
+const express = require('express'); // Import the Express.js
 const scrapeAmazon = require('../scrape.js'); // Import the scraping function
 
-const router = express.Router();
+const router = express.Router(); // create a new Express.js router object
 
 router.get('/scrape', async (req, res, next) => { // Defines a GET route called '/scrape'
   const keyword = req.query.keyword; // Extracts the query parameter called 'keyword' from the request URL 

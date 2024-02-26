@@ -1,12 +1,11 @@
-const express = require('express');
-const configureCors = require('./middlewares/cors'); // Importe a função de configuração do CORS
-const scrapeAmazon = require('./scrape'); // Importe a função scrapeAmazon
+const express = require('express'); // Import the Express.js
+const configureCors = require('./middlewares/cors'); // Import the CORS configuration function
+const scrapeAmazon = require('./scrape'); // Import the scrapeAmazon function
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = express(); // Create an instance of Express (From this object it is possible to handle Express and its tools)
+const PORT = process.env.PORT || 3000; // Define a PORT variable, which is used to determine which port the server should listen to for HTTP connections.
 
-// Use CORS configuration middleware
-app.use(configureCors());
+app.use(configureCors()); // Use CORS configuration middleware
 
 // Define the route that will be accessed by the frontend
 app.get('/api/scrape', async (req, res) => {
