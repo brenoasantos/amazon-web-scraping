@@ -1,11 +1,13 @@
 # Amazon Web Scraping
 Amazon Web Scraping is a web application designed to provide a simple and practical solution that performs webscraping and provides visualization of information obtained from the Amazon website. Through an user-friendly interface, the tool scrapes data from the first page of results for a given keyword, and the result is an interface that provides, for each product found:
+- Product image
 - Product Title
 - Rating (stars out of five)
 - Number of reviews
 - Product image URL
-To illustrate even better, the product image itself is also shown.
 
+In short, “Amazon Web Scraping” automates Amazon's information collection process and presents it in an organized and accessible way to users.
+  
 # Setup and running instructions
 ## Requirements to run the project:
 - [Node LTS](https://nodejs.org/en)
