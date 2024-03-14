@@ -18,5 +18,5 @@ In short, “Amazon Web Scraping” automates Amazon's information collection pr
 - ```git clone https://github.com/brenoasantos/amazon-web-scraping.git```
 - Install CORS ```npm install cors```
 - Run ```amazon-web-scraping/backend/index.js```
-- Open ```amazon-web-scraping/frontend/index.js``` with Live Server
+- Open ```amazon-web-scraping/frontend/index.html``` with Live Server
 - Excellent! Now just use the tool 🎉🎊
